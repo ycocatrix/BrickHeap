@@ -1,0 +1,32 @@
+// Shared French strings (WP0). Area-specific strings live in their own src/i18n/fr/<area>.ts module.
+export const common = {
+  appName: 'BrickHeap',
+  tabs: { scanner: 'Scanner', inventory: 'Inventaire', lists: 'Listes', account: 'Compte' },
+  actions: {
+    retry: 'Réessayer',
+    cancel: 'Annuler',
+    close: 'Fermer',
+    back: 'Retour',
+    save: 'Enregistrer',
+    delete: 'Supprimer',
+    confirm: 'Confirmer',
+    continue: 'Continuer',
+    undo: 'Annuler',
+    ok: 'OK',
+    openSettings: 'Ouvrir les réglages',
+  },
+  errors: {
+    offline: 'Pas de connexion. Vérifiez votre réseau puis réessayez.',
+    timeout: 'Le service met trop de temps à répondre. Réessayez.',
+    rate_limited: 'Trop de demandes à la suite. Patientez un instant puis réessayez.',
+    server: 'Le service est momentanément indisponible. Réessayez plus tard.',
+    not_configured: 'La synchronisation n’est pas configurée sur cette installation.',
+    unauthorized: 'Votre session a expiré. Reconnectez-vous.',
+    invalid: 'Vérifiez les informations saisies.',
+    not_found: 'Élément introuvable.',
+    unknown: 'Une erreur inattendue est survenue. Réessayez.',
+  },
+  legal: { notAffiliated: 'Projet indépendant, non affilié à LEGO®' },
+  boot: { failedTitle: 'Impossible de démarrer', failedMessage: 'Les données locales n’ont pas pu être ouvertes.' },
+  notFound: { title: 'Écran introuvable', action: 'Revenir au scanner' },
+} as const;

@@ -1,0 +1,42 @@
+# Secrets — NEVER commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p8
+*.p12
+*.jks
+*.mobileprovision
+google-services.json
+GoogleService-Info.plist
+supabase/.env
+supabase/.temp/
+supabase/.branches/
+service-account*.json
+
+# Dependencies / build
+node_modules/
+.expo/
+.expo-shared/
+dist/
+web-build/
+android/
+ios/
+coverage/
+*.tsbuildinfo
+
+# Native debug
+*.orig.*
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Local calibration captures (may contain personal photos)
+calibration-captures/

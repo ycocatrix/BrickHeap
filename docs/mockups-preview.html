@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BrickHeap — Maquettes</title>
+<style>
+:root{--bg:#12141A;--surf:#1E222B;--line:#2a2f3a;--txt:#F5F6F8;--mut:#9AA3B2;--pri:#FFD02E;--ok:#2BD96B;--warn:#FF9F1C;--err:#FF4D4F}
+*{box-sizing:border-box}
+body{margin:0;background:#0b0c10;color:var(--txt);font:16px/1.4 Inter,system-ui,sans-serif;padding:24px 16px}
+h1{margin:0 0 4px}h2{margin:32px 0 12px;text-align:center;font-size:18px;color:var(--pri)}
+p.sub{color:var(--mut);margin:0 0 8px}
+.row{display:flex;flex-wrap:wrap;gap:24px;justify-content:center}
+figure{margin:0;text-align:center}figcaption{margin-top:8px;color:var(--mut);font-size:14px;max-width:260px}
+.phone{width:260px;height:540px;border-radius:32px;border:6px solid #2a2f3a;background:var(--bg);position:relative;overflow:hidden;text-align:left}
+.notch{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:80px;height:20px;background:#000;border-radius:12px;z-index:5}
+.cam{position:absolute;inset:0;background:linear-gradient(135deg,#6b5b4a,#3b3328)}
+.top{position:absolute;top:40px;left:12px;right:12px;display:flex;justify-content:space-between;font-size:18px}
+.box{position:absolute;border:2px solid;outline:3px solid #fff;border-radius:4px;font-size:10px}
+.box b{position:absolute;top:-18px;left:-3px;background:var(--bg);padding:1px 5px;border-radius:4px;white-space:nowrap}
+.brick{position:absolute;border-radius:4px}
+.ok{border-color:var(--ok)}.wr{border-color:var(--warn)}.un{border-color:var(--mut)}
+/* bottom navigation */
+.tabs{position:absolute;left:0;right:0;bottom:0;height:60px;background:var(--surf);border-top:1px solid var(--line);display:flex;z-index:4}
+.tabs div{flex:1;text-align:center;font-size:10px;color:var(--mut);padding-top:8px}
+.tabs div span{display:block;font-size:20px;line-height:22px}
+.tabs .on{color:var(--pri);font-weight:700}
+.drawer{position:absolute;left:0;right:0;bottom:152px;background:var(--surf);border-radius:16px 16px 0 0;padding:10px 14px;font-size:13px}
+.drawer:before{content:"";display:block;width:36px;height:4px;background:var(--mut);border-radius:2px;margin:0 auto 8px}
+.bar{position:absolute;left:0;right:0;bottom:60px;height:92px;background:var(--bg);padding:10px 12px;text-align:center}
+.seg{display:inline-flex;background:var(--surf);border-radius:20px;padding:3px;font-size:12px}
+.seg span{padding:6px 12px;border-radius:16px}.seg .on{background:var(--pri);color:#12141A;font-weight:700}
+.shut{width:40px;height:40px;border-radius:50%;background:var(--pri);border:4px solid #fff;margin:6px auto 0}
+.hdr{padding:42px 14px 8px;font-weight:700;font-size:18px;display:flex;justify-content:space-between}
+.line{display:flex;align-items:center;gap:8px;padding:8px 14px;border-bottom:1px solid var(--line);font-size:13px}
+.dot{width:16px;height:16px;border-radius:50%;border:2px solid #fff;flex:none}
+.q{margin-left:auto;display:flex;gap:6px;align-items:center}.q i{font-style:normal;background:var(--surf);width:26px;height:26px;border-radius:50%;display:grid;place-items:center}
+.cta{background:var(--pri);color:#12141A;font-weight:700;text-align:center;border-radius:12px;padding:12px;font-size:14px;margin:8px 14px}
+.cta.abs{position:absolute;left:0;right:0;bottom:68px}
+.cta.sec{background:var(--surf);color:var(--txt);border:1px solid var(--line)}
+.cta.ghost{background:none;color:var(--mut);font-weight:400}
+.cta.dng{background:none;color:var(--err);border:1px solid var(--err)}
+.chip{display:inline-block;background:var(--surf);border-radius:10px;padding:2px 8px;font-size:11px;margin:2px 2px 0 0}
+.card{background:var(--surf);border-radius:10px;padding:8px;margin:6px 14px;font-size:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 14px}
+.tile{background:var(--surf);border-radius:10px;padding:10px;font-size:12px;text-align:center}
+.tile .dot{margin:0 auto 6px;width:32px;height:32px}
+.field{margin:8px 14px;font-size:11px;color:var(--mut)}
+.field div{margin-top:3px;background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:11px 12px;font-size:14px;color:var(--txt)}
+.field div.ph{color:#6b7385}
+.logo{text-align:center;margin-top:70px}.logo .stack{font-size:46px;line-height:1}.logo b{font-size:26px;display:block;margin-top:6px}
+.center{text-align:center;font-size:12px;color:var(--mut);margin:6px 14px}
+.sw{margin-left:auto;width:38px;height:22px;border-radius:11px;background:var(--surf);position:relative;border:1px solid var(--line)}
+.sw:after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--mut)}
+.sw.on{background:var(--pri)}.sw.on:after{left:18px;background:#12141A}
+.avatar{width:64px;height:64px;border-radius:50%;background:var(--pri);color:#12141A;font-weight:700;font-size:26px;display:grid;place-items:center;margin:8px auto}
+.err{color:var(--err);font-size:11px;margin:2px 14px}
+.sheet{position:absolute;left:0;right:0;bottom:60px;background:var(--surf);border-radius:16px 16px 0 0;padding:12px 0 6px;z-index:3}
+.sheet:before{content:"";display:block;width:36px;height:4px;background:var(--mut);border-radius:2px;margin:0 auto 8px}
+.dim{position:absolute;inset:0;background:rgba(0,0,0,.55);z-index:2}
+.pic{position:relative;height:64px;border-radius:8px;background:#f1f2f5;display:grid;place-items:center;margin-bottom:6px}
+.pic .b{width:44px;height:28px;border-radius:4px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.18)}
+.pic .b:before{content:"";display:block;margin:-6px auto 0;width:30px;height:6px;border-radius:3px 3px 0 0;background:inherit;filter:brightness(.9)}
+.badge{position:absolute;top:-6px;right:-6px;min-width:24px;height:24px;padding:0 6px;border-radius:12px;background:var(--pri);color:#12141A;font-weight:700;font-size:12px;display:grid;place-items:center;border:2px solid var(--bg)}
+.tile.img{padding:8px;font-size:11px;line-height:1.25}
+</style>
+</head>
+<body>
+<h1>🧱 BrickHeap</h1>
+<p class="sub">Maquettes V1 — projet communautaire, non affilié à The LEGO Group.</p>
+<p class="sub">Navigation : barre d'onglets basse (Scanner · Inventaire · Listes · Compte), toujours dans la zone du pouce. Le mode « sans compte » reste possible (l'usager n'est jamais bloqué).</p>
+
+<h2>A · Accès & compte</h2>
+<div class="row">
+
+<figure><div class="phone"><div class="notch"></div>
+<div class="logo"><div class="stack">🧱</div><b>brickheap</b><div class="center">Scannez vos briques.<br>Construisez votre inventaire.</div></div>
+<div style="position:absolute;left:0;right:0;bottom:24px">
+<div class="cta">Créer un compte</div>
+<div class="cta sec">Se connecter</div>
+<div class="cta ghost">Continuer sans compte</div>
+<div class="center" style="font-size:10px">Projet indépendant, non affilié à LEGO®</div></div>
+</div><figcaption>A1 · Accueil (premier lancement)</figcaption></figure>
+
+<figure><div class="phone"><div class="notch"></div>
+<div class="hdr"><span>‹ Connexion</span></div>
+<div class="field">E-mail<div>yann@exemple.fr</div></div>
+<div class="field">Mot de passe<div>••••••••••  👁</div></div>
+<div class="center" style="text-align:right;color:var(--pri)">Mot de passe oublié ?</div>
+<div class="cta">Se connecter</div>
+<div class="center">ou</div>
+<div class="cta sec">✉ Recevoir un code de connexion</div>
+<div class="cta ghost">Continuer sans compte</div>
+</div><figcaption>A2 · Connexion (e-mail + mot de passe, code de connexion)</figcaption></figure>
+
+<figure><div class="phone"><div class="notch"></div>
+<div class="hdr"><span>‹ Saisir le code</span></div>
+<div class="center" style="text-align:left;font-size:13px;color:var(--txt)">Un code à 6 chiffres a été envoyé à yann@exemple.fr.</div>
+<div class="field">Code reçu par e-mail<div>4 8 2 1 9 _</div></div>
+<div class="cta">Valider</div>
+<div class="cta ghost">Renvoyer le code (dans 42 s)</div>
+<div class="center">Inscription · code de connexion · mot de passe oublié</div>
+</div><figcaption>A2bis · Saisie du code reçu</figcaption></figure>
+
+<figure><div class="phone"><div class="notch"></div>
+<div class="hdr"><span>‹ Créer un compte</span></div>
+<div class="field">Pseudo (optionnel)<div class="ph">BrickMaster</div></div>
+<div class="field">E-mail<div>yann@exemple</div></div>
+<div class="err">⚠ Adresse e-mail invalide</div>
+<div class="field">Mot de passe (8 car. min.)<div>••••  👁</div></div>
+<div class="center" style="text-align:left">☑ J'accepte les conditions et la politique de confidentialité</div>
+<div class="cta">Créer mon compte</div>
+<div class="center">Un e-mail de confirmation vous sera envoyé.<br>Vos données locales sont conservées et synchronisées.</div>
+</div><figcaption>A3 · Inscription (erreur de champ visible)</figcaption></figure>
+
+<figure><div class="phone"><div class="notch"></div>
+<div class="hdr"><span>‹ Mot de passe oublié</span></div>
+<div class="center" style="text-align:left;font-size:13px;color:var(--txt)">Saisissez votre e-mail : nous vous enverrons un code de réinitialisation.</div>
+<div class="field">E-mail<div>yann@exemple.fr</div></div>
+<div class="cta">Envoyer le code</div>
+<div class="card" style="color:var(--ok)">✓ Si un compte existe, un e-mail vient d'être envoyé.</div>
+<div class="cta sec">Saisir le code reçu</div>
+</div><figcaption>A4 · Réinitialisation</figcaption></figure>
+
+<figure><div class="phone"><div class="notch"></div>
+<div class="hdr"><span>Compte</span></div>
+<div class="avatar">Y</div>
+<div class="center" style="color:var(--txt);font-size:15px;margin:0"><b>BrickMaster</b></div>
+<div class="center">yann@exemple.fr · ✓ synchronisé il y a 2 min</div>
+<div class="line"><span>👤 Modifier le profil</span><span class="q">›</span></div>
+<div class="line"><span>🔑 Changer le mot de passe</span><span class="q">›</span></div>
+<div class="line"><span>⚙ Réglages</span><span class="q">›</span></div>
+<div class="line"><span>⬇ Exporter mes données</span><span class="q">›</span></div>
+<div class="line"><span>ℹ À propos · Mentions légales · GitHub</span><span class="q">›</span></div>
+<div class="cta sec" style="margin-top:14px">Se déconnecter</div>
+<div class="tabs"><div><span>📷</span>Scanner</div><div><span>🧱</span>Inventaire</div><div><span>☰</span>Listes</div><div class="on"><span>👤</span>Compte</div></div>
+</div><figcaption>A5 · Compte (onglet)</figcaption></figure>
+
+<figure><div class="phone"><div class="notch"></div>
+<div class="hdr"><span>‹ Réglages</span></div>
+<div class="line">🌐 Langue<span class="q" style="color:var(--mut)">Français ›</span></div>
+<div class="line">🔦 Torche au lancement<span class="sw"></span></div>
+<div class="line">📳 Retours haptiques<span class="sw on"></span></div>
+<div class="line">🎥 Explorer en direct<span class="sw on"></span></div>
+<div class="line">🧪 Mode Calibration<span class="sw on"></span></div>
+<div class="line">🔒 Confidentialité & données<span class="q">›</span></div>
+<div class="cta dng" style="margin-top:20px">Supprimer mon compte</div>
+<div class="center">Suppression définitive des données synchronisées (confirmation requise).</div>
+</div><figcaption>A6 · Réglages & suppression de compte</figcaption></figure>
+
+</div>
+
+<h2>B · Scanner</h2>
+<div class="row">
+
+<figure><div class="phone"><div class="notch"></div><div class="cam"></div>
+<div class="top"><span>🔦</span><span>🔒 ⚙</span></div>
+<div class="brick" style="left:30px;top:150px;width:70px;height:46px;background:#c0262d"></div>
+<div class="box ok" style="left:30px;top:150px;width:70px;height:46px"><b>2×4 Rouge · 92% ✓</b></div>
+<div class="brick" style="left:130px;top:190px;width:60px;height:30px;background:#8a8f98"></div>
+<div class="box wr" style="left:130px;top:190px;width:60px;height:30px"><b>1×2 Gris · 66% ?</b></div>
+<div class="brick" style="left:70px;top:250px;width:50px;height:50px;background:#1c6bd6"></div>
+<div class="box ok" style="left:70px;top:250px;width:50px;height:50px"><b>2×2 Bleu · 88% ✓</b></div>
+<div class="brick" style="left:150px;top:270px;width:44px;height:24px;background:#555"></div>
+<div class="box un" style="left:150px;top:270px;width:44px;height:24px"><b>? –</b></div>
+<div class="drawer">7 pièces détectées ▲</div>
+<div class="bar"><div class="seg"><span class="on">Explorer</span><span>Inventorier</span></div></div>
+<div class="tabs"><div class="on"><span>📷</span>Scanner</div><div><span>🧱</span>Inventaire</div><div><span>☰</span>Listes</div><div><span>👤</span>Compte</div></div>
+</div><figcaption>B1 · Scanner AR — mode Explorer (cadres mis à jour par instantanés, toutes les 2–3 s)</figcaption></figure>
+
+<figure><div class="phone"><div class="notch"></div><div class="cam"></div>
+<div class="drawer" style="bottom:152px;top:170px">
+<b>7 pièces détectées</b>
+<div class="line" style="padding-left:0"><span class="dot" style="background:#c0262d"></span>Brique 2×4 <span class="q">×3 <span class="chip" style="color:var(--ok)">92%</span></span></div>
+<div class="line" style="padding-left:0"><span class="dot" style="background:#8a8f98"></span>Plate 1×2 <span class="q">×2 <span class="chip" style="color:var(--warn)">66%</span></span></div>
+<div class="line" style="padding-left:0"><span class="dot" style="background:#1c6bd6"></span>Brique 2×2 <span class="q">×2 <span class="chip" style="color:var(--ok)">88%</span></span></div>
+<div style="margin-top:8px;font-size:12px;color:var(--mut)">Plate 1×2 — plutôt :</div>
+<span class="chip">Plate 1×2</span><span class="chip">Tile 1×2</span><span class="chip">Brique 1×2</span>
+</div>
+<div class="bar"><div class="seg"><span class="on">Explorer</span><span>Inventorier</span></div></div>
+<div class="tabs"><div class="on"><span>📷</span>Scanner</div><div><span>🧱</span>Inventaire</div><div><span>☰</span>Listes</div><div><span>👤</span>Compte</div></div>
+</div><figcaption>B2 · Tiroir récapitulatif de pile</figcaption></figure>
+
+<figure><div class="phone"><div class="notch"></div>
+<div class="hdr"><span>‹ Valider la pile</span></div>
+<div style="padding:0 14px;color:var(--warn);font-size:12px">≈ comptage approximatif — ajustez si besoin</div>
+<div class="line"><span class="dot" style="background:#c0262d"></span>Brique 2×4 Rouge<span class="q"><i>−</i>3<i>+</i></span></div>
+<div class="line"><span class="dot" style="background:#8a8f98"></span>Plaque 1×2 Gris · <span style="color:var(--warn)">? 66%</span><span class="q"><i>−</i>2<i>+</i></span></div>
+<div class="line"><span class="dot" style="background:#f2cd37;border:1px dashed #fff"></span>📷 Brique 1×1 · Couleur à confirmer<span class="q"><span class="chip">Confirmer Jaune</span></span></div>
+<div class="line"><span class="dot" style="background:#555"></span>📷 Inconnue · choisir<span class="q">›</span></div>
+<div style="padding:0 14px;font-size:11px;color:var(--mut)">dont 2 à vérifier · 1 pièce ignorée</div>
+<div class="cta abs" style="bottom:14px">Ajouter 7 pièces à Vrac Salon ▾</div>
+</div><figcaption>B3 · Validation — sans barre d'onglets ; 📷 = photo recadrée de la pièce réelle</figcaption></figure>
+
+<figure><div class="phone"><div class="notch"></div><div class="cam"></div>
+<div class="dim"></div>
+<div class="sheet" style="bottom:0;padding-bottom:20px;text-align:center">
+<div style="font-size:30px">📷</div><b>Accès à la caméra</b>
+<div class="center">BrickHeap utilise la caméra pour reconnaître vos briques. Les photos ne sont pas stockées.</div>
+<div class="cta">Autoriser la caméra</div><div class="cta ghost">Plus tard</div></div>
+</div><figcaption>B4 · Permission caméra (pré-explication)</figcaption></figure>
+
+</div>
+
+<h2>C · Pièce, inventaire, listes, export</h2>
+<div class="row">
+
+<figure><div class="phone"><div class="notch"></div>
+<div class="hdr"><span>‹ Brique 2×4</span></div>
+<div style="height:90px;margin:0 14px;border-radius:10px;background:#c0262d"></div>
+<div class="card"><span class="dot" style="display:inline-block;vertical-align:middle;background:#c0262d"></span> Rouge vif · #C91A09<br>Design ID 3001 · Element 300121<br>Catégorie : Briques · 2×4</div>
+<div class="card"><b>Sets compatibles</b> <span class="chip">année ▾</span><br>10698 · 2015 · ×12<br>21319 · 2016 · ×4</div>
+<div class="cta">Rechercher sur Pick a Brick ↗</div>
+<div class="cta sec" style="margin-top:0">+ Ajouter à une liste</div>
+</div><figcaption>C1 · Fiche pièce officielle — chevron retour, sans barre d'onglets</figcaption></figure>
+
+<figure><div class="phone"><div class="notch"></div>
+<div class="hdr"><span>Inventaire</span><span>🔍 ⇅</span></div>
+<div style="padding:0 14px 8px;font-size:12px"><span class="chip" style="background:var(--pri);color:#12141A">Tout</span><span class="chip">Couleur ▾</span><span class="chip">Catégorie ▾</span><span class="chip">▦ ≣</span></div>
+<div class="grid">
+<div class="tile img"><div class="pic"><span class="b" style="background:#c0262d;width:44px;height:28px"></span><span class="badge">12</span></div>Brique 2×4<br><span style="color:var(--mut)">Rouge</span></div><div class="tile img"><div class="pic"><span class="b" style="background:#8a8f98;width:30px;height:16px"></span><span class="badge">8</span></div>Plate 1×2<br><span style="color:var(--mut)">Gris</span></div><div class="tile img"><div class="pic"><span class="b" style="background:#1c6bd6;width:30px;height:28px"></span><span class="badge">6</span></div>Brique 2×2<br><span style="color:var(--mut)">Bleu</span></div><div class="tile img"><div class="pic"><span class="b" style="background:#f2cd37;width:18px;height:14px"></span><span class="badge">20</span></div>Tile 1×1<br><span style="color:var(--mut)">Jaune</span></div>
+</div>
+<div class="center">46 références · 312 pièces</div>
+<div class="tabs"><div><span>📷</span>Scanner</div><div class="on"><span>🧱</span>Inventaire</div><div><span>☰</span>Listes</div><div><span>👤</span>Compte</div></div>
+</div><figcaption>C2 · Inventaire & filtres</figcaption></figure>
+
+<figure><div class="phone"><div class="notch"></div>
+<div class="hdr"><span>Listes</span><span>＋</span></div>
+<div class="line">📁 Vrac Salon<span class="q" style="color:var(--mut)">46 réf. ⋯</span></div>
+<div class="line">📁 Projet MOC<span class="q" style="color:var(--mut)">18 réf. ⋯</span></div>
+<div class="line">📁 Vrac Cave<span class="q" style="color:var(--mut)">120 réf. ⋯</span></div>
+<div class="center" style="margin-top:14px">« ⋯ » : renommer, exporter ou supprimer.</div>
+<div class="tabs"><div><span>📷</span>Scanner</div><div><span>🧱</span>Inventaire</div><div class="on"><span>☰</span>Listes</div><div><span>👤</span>Compte</div></div>
+</div><figcaption>C3 · Listes / projets</figcaption></figure>
+
+<figure><div class="phone"><div class="notch"></div>
+<div class="hdr"><span>Inventaire</span></div>
+<div class="grid" style="opacity:.4"><div class="tile">…</div><div class="tile">…</div></div>
+<div class="dim"></div>
+<div class="sheet"><b style="padding:0 14px">Exporter</b>
+<div class="card">◉ CSV</div><div class="card">○ JSON</div><div class="card">○ BrickLink XML</div>
+<div class="center" style="text-align:left">Périmètre : Vrac Salon (46 lignes)</div>
+<div class="cta">Partager</div></div>
+<div class="tabs"><div><span>📷</span>Scanner</div><div class="on"><span>🧱</span>Inventaire</div><div><span>☰</span>Listes</div><div><span>👤</span>Compte</div></div>
+</div><figcaption>C4 · Export (feuille basse)</figcaption></figure>
+
+<figure><div class="phone"><div class="notch"></div>
+<div class="hdr"><span>Inventaire</span></div>
+<div style="text-align:center;margin-top:70px;padding:0 20px"><div style="font-size:42px">🧱</div><b>Votre inventaire est vide</b>
+<div class="center">Scannez une pile de briques pour commencer.</div></div>
+<div class="cta">Ouvrir le scanner</div>
+<div class="card" style="color:var(--warn)">Mode sans compte : données uniquement sur cet appareil. <u>Créer un compte</u> pour les synchroniser.</div>
+<div class="tabs"><div><span>📷</span>Scanner</div><div class="on"><span>🧱</span>Inventaire</div><div><span>☰</span>Listes</div><div><span>👤</span>Compte</div></div>
+</div><figcaption>C5 · État vide + invitation à créer un compte</figcaption></figure>
+
+</div>
+</body>
+</html>
