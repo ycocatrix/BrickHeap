@@ -198,7 +198,7 @@ minimum_password_length = 8                                  # EX_20
 
 [auth.rate_limit]
 # Number of emails that can be sent per hour. Requires auth.email.smtp to be enabled.
-email_sent = 2
+email_sent = 30
 # Number of SMS messages that can be sent per hour. Requires auth.sms to be enabled.
 sms_sent = 30
 # Number of anonymous sign-ins that can be made per hour per IP address. Requires enable_anonymous_sign_ins = true.
@@ -239,15 +239,16 @@ otp_length = 6
 # Number of seconds before the email OTP expires (defaults to 1 hour).
 otp_expiry = 3600
 
-# Use a production-ready SMTP server
-# [auth.email.smtp]
-# enabled = true
-# host = "smtp.sendgrid.net"
-# port = 587
-# user = "apikey"
-# pass = "env(SENDGRID_API_KEY)"
-# admin_email = "admin@email.com"
-# sender_name = "Admin"
+# Transactional e-mail through Brevo (free tier, brickheap.com authenticated with SPF/DKIM/DMARC).
+# Values come from the environment (.env, never committed): BREVO_SMTP_USER, BREVO_SMTP_KEY.
+[auth.email.smtp]
+enabled = true
+host = "smtp-relay.brevo.com"
+port = 587
+user = "env(BREVO_SMTP_USER)"
+pass = "env(BREVO_SMTP_KEY)"
+admin_email = "noreply@brickheap.com"
+sender_name = "BrickHeap"
 
 # Uncomment to customize email template
 # [auth.email.template.invite]
@@ -255,24 +256,18 @@ otp_expiry = 3600
 # content_path = "./supabase/templates/invite.html"
 
 # BrickHeap templates carry both the 6-digit code ({{ .Token }}) and the link (EX_20 / EX_21 / EX_22).
-# Free-tier projects reject template changes unless a custom SMTP is configured (config push -> HTTP 400).
-# Uncomment these three blocks once [auth.email.smtp] is set up (user action U5), then `supabase config push --remote`.
-# [auth.email.template.confirmation]
-# subject = "Confirmez votre compte BrickHeap"
-# content_path = "./supabase/templates/confirmation.html"
+# They need the custom SMTP above (free-tier projects reject template changes without it).
+[auth.email.template.confirmation]
+subject = "Confirmez votre compte BrickHeap"
+content_path = "./supabase/templates/confirmation.html"
 
-# [auth.email.template.magic_link]
-# subject = "Votre code de connexion BrickHeap"
-# content_path = "./supabase/templates/magic_link.html"
+[auth.email.template.magic_link]
+subject = "Votre code de connexion BrickHeap"
+content_path = "./supabase/templates/magic_link.html"
 
-# [auth.email.template.recovery]
-# subject = "Réinitialisez votre mot de passe BrickHeap"
-# content_path = "./supabase/templates/recovery.html"
-
-# Required for recipients outside the project team (built-in SMTP: team addresses only, 2 e-mails/hour):
-# [auth.email.smtp]
-# enabled = true
-# host = "…"  port = 587  user = "…"  pass = "env(SMTP_PASS)"  admin_email = "…"  sender_name = "BrickHeap"
+[auth.email.template.recovery]
+subject = "Réinitialisez votre mot de passe BrickHeap"
+content_path = "./supabase/templates/recovery.html"
 
 # Uncomment to customize notification email template
 # [auth.email.notification.password_changed]
