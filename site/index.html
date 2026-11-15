@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BrickHeap — scannez vos briques, construisez votre inventaire</title>
+  <meta name="description" content="Application mobile open source et gratuite : scannez une brique ou un tas de briques, identifiez chaque pièce et gérez votre inventaire.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='3' y='12' width='26' height='14' rx='2' fill='%23FFD02E'/><rect x='7' y='7' width='6' height='6' rx='2' fill='%23FFD02E'/><rect x='19' y='7' width='6' height='6' rx='2' fill='%23FFD02E'/></svg>">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <a class="logo" href="/">brick<span>heap</span></a>
+      <nav aria-label="Navigation principale">
+        <a href="#fonctionnalites">Fonctionnalités</a>
+        <a href="confidentialite.html">Confidentialité</a>
+        <a href="https://github.com/ycocatrix/BrickHeap">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="hero">
+      <div>
+        <h1>Scannez un tas de briques. Obtenez votre inventaire.</h1>
+        <p>BrickHeap identifie chaque pièce d'une pile en vrac avec la caméra de votre téléphone, la regroupe par référence et par couleur, et tient votre inventaire à jour sur tous vos appareils.</p>
+        <div class="btns">
+          <a class="btn primary" href="https://github.com/ycocatrix/BrickHeap">Voir le projet sur GitHub</a>
+          <a class="btn ghost" href="#statut">Où en est l'app ?</a>
+        </div>
+      </div>
+      <div class="phones">
+        <img src="img/validation.jpg" alt="Écran de validation d'une pile : 2 tuiles 1×2 bleues, 1 brique 1×8 bleue, 1 plaque 1×2 noire, avec leur score de confiance" width="540" height="1170">
+        <img src="img/inventaire.jpg" alt="Inventaire en vignettes : brique 1×8, plaque 1×2 et tuile 1×2, avec la quantité en badge" width="540" height="1170">
+      </div>
+    </div>
+
+    <section id="fonctionnalites" aria-labelledby="f-title">
+      <h2 id="f-title">Fonctionnalités</h2>
+      <div class="grid">
+        <div class="card"><h3>Scan de pile</h3><p>La photo est découpée pièce par pièce sur le téléphone, puis chaque pièce est identifiée avec sa couleur. Les doutes sont signalés, jamais ajoutés sans votre accord.</p></div>
+        <div class="card"><h3>Mode Explorer</h3><p>Touchez une brique à l'écran pour voir sa fiche officielle, sans rien enregistrer.</p></div>
+        <div class="card"><h3>Mode Inventorier</h3><p>Validez la pile en un écran : pièces regroupées, quantités ajustables, couleur à confirmer, ajout en un clic.</p></div>
+        <div class="card"><h3>Fiche pièce</h3><p>Nom, références, couleur exacte, sets qui contiennent la pièce et lien de recherche vers Pick a Brick.</p></div>
+        <div class="card"><h3>Inventaire synchronisé</h3><p>Listes et projets, sur plusieurs appareils avec un compte, ou entièrement sur le téléphone sans compte.</p></div>
+        <div class="card"><h3>Export</h3><p>CSV, JSON ou BrickLink XML, pour importer votre inventaire ailleurs.</p></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="s-title">
+      <h2 id="s-title">Aperçu</h2>
+      <div class="shots">
+        <figure><img src="img/validation.jpg" alt="Validation d'une pile scannée" loading="lazy" width="540" height="1170"><figcaption>Valider une pile</figcaption></figure>
+        <figure><img src="img/inventaire.jpg" alt="Inventaire en vignettes avec badges de quantité" loading="lazy" width="540" height="1170"><figcaption>Inventaire</figcaption></figure>
+        <figure><img src="img/fiche.jpg" alt="Fiche de la brique 1×8 bleue" loading="lazy" width="540" height="1170"><figcaption>Fiche pièce</figcaption></figure>
+        <figure><img src="img/sets.jpg" alt="Liste des sets qui contiennent la pièce" loading="lazy" width="540" height="1170"><figcaption>Sets compatibles</figcaption></figure>
+      </div>
+    </section>
+
+    <section id="statut" aria-labelledby="st-title">
+      <h2 id="st-title">Où en est l'app ?</h2>
+      <p class="status"><strong>En développement, pas encore sur les stores.</strong> L'application fonctionne sur de vrais téléphones Android et iPhone en version de test. Le code est ouvert : vous pouvez la compiler et la lancer vous-même en suivant le guide du dépôt GitHub.</p>
+    </section>
+
+    <section aria-labelledby="o-title">
+      <h2 id="o-title">Open source et gratuit</h2>
+      <p>BrickHeap est publié sous licence MIT et repose uniquement sur des services gratuits : <a href="https://brickognize.com">Brickognize</a> pour l'identification des pièces, <a href="https://rebrickable.com">Rebrickable</a> pour le catalogue et Supabase pour la synchronisation. Les contributions sont les bienvenues.</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>BrickHeap est un projet open source communautaire et indépendant. Il n'est ni affilié, ni sponsorisé, ni approuvé par The LEGO Group. LEGO® est une marque déposée de The LEGO Group.</p>
+      <p><a href="confidentialite.html">Politique de confidentialité</a> · <a href="mentions-legales.html">Mentions légales</a> · <a href="https://github.com/ycocatrix/BrickHeap">Code source</a></p>
+    </div>
+  </footer>
+</body>
+</html>

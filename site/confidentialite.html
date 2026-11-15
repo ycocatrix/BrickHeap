@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Confidentialité — BrickHeap</title>
+  <meta name="description" content="Politique de confidentialité de l'application BrickHeap.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top"><div class="wrap"><a class="logo" href="/">brick<span>heap</span></a>
+    <nav aria-label="Navigation principale"><a href="/">Accueil</a><a href="mentions-legales.html">Mentions légales</a></nav></div></header>
+  <main class="wrap legal">
+    <h1>Politique de confidentialité</h1>
+    <p class="updated">Dernière mise à jour : 15 novembre 2026</p>
+
+    <p>BrickHeap est une application open source et gratuite. Elle collecte le minimum de données nécessaire à son fonctionnement, ne contient <strong>aucune publicité, aucun outil de mesure d'audience et aucun traceur</strong>, et ne vend ni ne partage vos données à des fins commerciales.</p>
+
+    <h2>1. Sans compte</h2>
+    <p>Vous pouvez utiliser BrickHeap sans créer de compte. Votre inventaire, vos listes et vos réglages restent alors uniquement sur votre téléphone. Aucune donnée personnelle n'est envoyée à nos serveurs.</p>
+
+    <h2>2. Données traitées</h2>
+    <table>
+      <thead><tr><th>Donnée</th><th>Pourquoi</th><th>Où</th></tr></thead>
+      <tbody>
+        <tr><td>Adresse e-mail, mot de passe (chiffré), pseudo facultatif, date d'acceptation des conditions</td><td>Créer et sécuriser votre compte (si vous en créez un)</td><td>Supabase, Union européenne (Stockholm)</td></tr>
+        <tr><td>Votre inventaire : listes, références de pièces, couleurs, quantités</td><td>Synchroniser votre inventaire entre vos appareils</td><td>Supabase, Union européenne (Stockholm)</td></tr>
+        <tr><td>Un identifiant technique d'appareil, généré aléatoirement</td><td>Éviter qu'une synchronisation soit appliquée deux fois</td><td>Supabase, Union européenne (Stockholm)</td></tr>
+        <tr><td>Recadrages d'images de pièces, pris par la caméra</td><td>Identifier chaque pièce</td><td>Envoyés au service Brickognize (voir ci-dessous)</td></tr>
+      </tbody>
+    </table>
+
+    <h2>3. La caméra et les photos</h2>
+    <p>La caméra sert uniquement à reconnaître vos briques. Les photos sont analysées sur votre téléphone, puis supprimées : elles ne sont <strong>jamais stockées</strong> par BrickHeap ni envoyées à nos serveurs. Pour identifier une pièce, l'application envoie au service <a href="https://brickognize.com">Brickognize</a> un petit recadrage (320 pixels) autour de la pièce, sans données de localisation. Brickognize est un service tiers indépendant, soumis à ses propres conditions.</p>
+
+    <h2>4. Le catalogue des pièces</h2>
+    <p>Les fiches pièces (noms, couleurs, sets) viennent de <a href="https://rebrickable.com">Rebrickable</a>, interrogé par notre serveur. Aucune donnée personnelle n'est transmise à Rebrickable. Les liens « Acheter sur LEGO » et vers d'autres sites ouvrent votre navigateur : ces sites appliquent leurs propres règles.</p>
+
+    <h2>5. Durée de conservation</h2>
+    <p>Vos données de compte et votre inventaire synchronisé sont conservés tant que votre compte existe. Ils sont supprimés lorsque vous supprimez votre compte.</p>
+
+    <h2>6. Vos droits</h2>
+    <p>Conformément au RGPD, vous pouvez accéder à vos données, les rectifier, les exporter ou les effacer :</p>
+    <ul>
+      <li><strong>Exporter</strong> : Compte → Exporter mes données (CSV, JSON ou BrickLink XML) ;</li>
+      <li><strong>Supprimer</strong> : Compte → Réglages → Supprimer mon compte. Votre compte, votre inventaire synchronisé et l'inventaire stocké sur le téléphone sont effacés définitivement ;</li>
+      <li>pour toute autre demande, contactez-nous (voir ci-dessous).</li>
+    </ul>
+    <p>Vous pouvez aussi adresser une réclamation à la <a href="https://www.cnil.fr">CNIL</a>.</p>
+
+    <h2>7. Ce site</h2>
+    <p>Ce site n'utilise aucun cookie ni outil de mesure d'audience. Il est hébergé par GitHub Pages, qui peut enregistrer votre adresse IP dans ses journaux techniques pour des raisons de sécurité.</p>
+
+    <h2>8. Contact</h2>
+    <p>Pour toute question sur vos données : ouvrez une demande sur <a href="https://github.com/ycocatrix/BrickHeap/issues">GitHub</a>. N'y indiquez aucune donnée personnelle ; nous vous recontacterons de façon privée si nécessaire.</p>
+  </main>
+  <footer><div class="wrap"><p>BrickHeap n'est ni affilié, ni sponsorisé, ni approuvé par The LEGO Group. LEGO® est une marque déposée de The LEGO Group.</p>
+    <p><a href="/">Accueil</a> · <a href="mentions-legales.html">Mentions légales</a></p></div></footer>
+</body>
+</html>
