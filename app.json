@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "BrickHeap",
+    "slug": "brickheap",
+    "scheme": "brickheap",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#12141A",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.ycocatrix.brickheap"
+    },
+    "android": {
+      "package": "com.ycocatrix.brickheap",
+      "adaptiveIcon": {
+        "backgroundColor": "#12141A",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "BrickHeap utilise la caméra pour reconnaître vos briques. Les images sont envoyées au service Brickognize pour identification et ne sont pas conservées par BrickHeap.",
+          "recordAudioAndroid": false
+        }
+      ],
+      "expo-sqlite",
+      "expo-sharing",
+      "expo-image",
+      "expo-font"
+    ]
+  }
+}
