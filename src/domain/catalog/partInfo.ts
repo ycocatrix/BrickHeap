@@ -1,8 +1,11 @@
 // Pure catalogue helpers (EX_12, EX_13, EX_14, D7, D18). Imports only types and the French catalogue labels.
 import type { Candidate, CatalogPart, PartDimensions, SetRef } from '../types';
-import { CATEGORY_NAMES_FR, PART_WORDS_FR } from '../../i18n/fr/catalog';
+import { CATEGORY_NAMES_FR, PART_PHRASES_FR, PART_WORDS_FR } from '../../i18n/fr/catalog';
 
 const WORDS_BY_LENGTH = [...PART_WORDS_FR].sort((a, b) => b[0].length - a[0].length);
+const PHRASES = [...PART_PHRASES_FR]
+  .sort((a, b) => b[0].length - a[0].length)
+  .map(([en, fr]) => [new RegExp(`(^|[^A-Za-z0-9])${en.replace(/ /g, '\\s+')}(?![A-Za-z0-9])`, 'gi'), fr] as const);
 
 function startsWithWord(name: string, word: string): boolean {
   if (name.length < word.length) return false;
@@ -21,6 +24,7 @@ export function partLabel(name: string): string {
       break;
     }
   }
+  for (const [re, fr] of PHRASES) out = out.replace(re, (_m, pre: string) => pre + fr);
   return out.replace(/ x /g, ' × ');
 }
 

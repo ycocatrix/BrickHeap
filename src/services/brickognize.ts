@@ -1,4 +1,5 @@
 // The only file that knows the Brickognize HTTP API (D4). Never rejects.
+import { File } from 'expo-file-system';
 import type { AppErrorCode, BoundingBox, Identification } from '@/domain/types';
 import { parseBoundingBox, parseBrickognizeResponse, retryDelayMs } from '@/domain/pile/brickognizeParse';
 import { VISION } from '@/domain/vision/config';
@@ -58,8 +59,9 @@ async function attempt(uri: string, signal?: AbortSignal): Promise<Attempt> {
   signal?.addEventListener('abort', onAbort);
   try {
     const form = new FormData();
-    // React Native multipart file part: { uri, name, type }.
-    form.append('query_image', { uri, name: 'crop.jpg', type: 'image/jpeg' } as unknown as Blob);
+    // Expo SDK 58's fetch (expo/fetch) rejects React Native's { uri, name, type } parts; it accepts any
+    // part exposing bytes(), such as an expo-file-system File (name/type come from the .jpg path).
+    form.append('query_image', new File(uri) as unknown as Blob);
     const res = await fetch(predictUrl(), {
       method: 'POST',
       headers: { Accept: 'application/json' },

@@ -31,7 +31,7 @@ import { InventoryListItem, InventoryTile } from './InventoryTile';
 import { changeQuantity, moveWithUndo, removeWithUndo, SHEET_SWAP_MS } from './itemActions';
 
 const GAP = spacing.md;
-const PAD = spacing.lg;
+const PAD = spacing.lg; // = <Screen> body horizontal padding
 const TILE_MIN = 120;
 
 type Entry = { kind: 'grid'; key: string; rows: InventoryRow[] } | { kind: 'row'; key: string; row: InventoryRow };
@@ -359,14 +359,14 @@ export default function InventoryScreen(): ReactElement {
 }
 
 const s = StyleSheet.create({
-  content: { paddingHorizontal: PAD, paddingBottom: spacing.xl, flexGrow: 1 },
+  content: { paddingBottom: spacing.xl, flexGrow: 1 }, // horizontal padding comes from <Screen> (PAD)
   header: { gap: spacing.md, paddingBottom: spacing.md },
   headerButtons: { flexDirection: 'row' },
   chipRow: { gap: spacing.sm, paddingVertical: spacing.xs },
   filterRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
   gridRow: { flexDirection: 'row', gap: GAP },
   sectionTitle: { color: colors.text, fontSize: font.h2, fontWeight: '700', marginTop: spacing.md, marginBottom: spacing.sm },
-  skeletons: { flexDirection: 'row', flexWrap: 'wrap', gap: GAP, padding: PAD },
+  skeletons: { flexDirection: 'row', flexWrap: 'wrap', gap: GAP, paddingVertical: PAD },
   footer: { color: colors.text, fontSize: font.body, textAlign: 'center', paddingVertical: spacing.sm },
   sheet: { gap: spacing.md },
   sheetLabel: { color: colors.muted, fontSize: font.small },

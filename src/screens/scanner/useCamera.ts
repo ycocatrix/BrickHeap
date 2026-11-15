@@ -10,6 +10,8 @@ import { kv } from '@/services/kv';
 import { useSetting } from '@/state/settings';
 
 const SIZE_KEY = 'camera.pictureSize';
+/** Delay between the screen gaining focus and the camera mounting (longer than the stack pop animation). */
+const MOUNT_SETTLE_MS = 450;
 const IOS_PICTURE_SIZE = '1920x1080';
 /** If the rebind after a picture-size change never reports ready again, assume it is ready after this delay. */
 const REBIND_READY_FALLBACK_MS = 2000;
@@ -68,7 +70,18 @@ export function useCamera(ref: RefObject<CameraView | null>): CameraController {
   const readyRef = useRef(false);
   const fallbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const active = focused && appActive;
+  // Mount the native preview only once the screen has settled: mounting it while a stack screen is still sliding
+  // away (e.g. back from the review) leaves Android's PreviewView mis-sized (squashed, letterboxed) for the whole
+  // session. Unmounting stays immediate.
+  const wantActive = focused && appActive;
+  const [settled, setSettled] = useState(false);
+  if (!wantActive && settled) setSettled(false); // state adjusted during render
+  useEffect(() => {
+    if (!wantActive) return undefined;
+    const timer = setTimeout(() => setSettled(true), MOUNT_SETTLE_MS);
+    return () => clearTimeout(timer);
+  }, [wantActive]);
+  const active = wantActive && settled;
 
   const setReadyBoth = useCallback((v: boolean) => {
     readyRef.current = v;

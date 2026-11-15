@@ -74,11 +74,15 @@ describe('partLabel', () => {
     expect(partLabel('Brick 2 x 4')).toBe('Brique 2 × 4');
     expect(partLabel('Plate Round 1 x 1')).toBe('Plaque ronde 1 × 1');
     expect(partLabel('Slope 45 2 x 1')).toBe('Pente 45 2 × 1');
-    expect(partLabel('Tile 1 x 2 with Groove')).toBe('Tuile 1 × 2 with Groove');
+    expect(partLabel('Tile 1 x 2 with Groove')).toBe('Tuile 1 × 2 avec rainure');
+    expect(partLabel('Plate 1 x 2 without Groove')).toBe('Plaque 1 × 2 sans rainure');
+    expect(partLabel('Wedge Plate 6 x 3 Left')).toBe('Plaque biseautée 6 × 3 gauche');
+    expect(partLabel('Brick Leftover')).toBe('Brique Leftover');
+    expect(partLabel('Tile 1 x 2 with Groove')).toBe('Tuile 1 × 2 avec rainure');
   });
   it('matches whole words only', () => {
     expect(partLabel('Bricklink Special')).toBe('Bricklink Special');
-    expect(partLabel('Plate, Modified 1 x 2')).toBe('Plaque, Modified 1 × 2');
+    expect(partLabel('Plate, Modified 1 x 2')).toBe('Plaque, modifiée 1 × 2');
   });
   it('keeps an unmapped name unchanged', () => {
     expect(partLabel('Technic Pin')).toBe('Technic Pin');

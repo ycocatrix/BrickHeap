@@ -114,3 +114,24 @@ export const PART_WORDS_FR: readonly (readonly [en: string, fr: string])[] = [
   ['Minifig', 'Minifig'],
   ['Technic', 'Technic'],
 ];
+
+/** Common qualifiers inside Rebrickable names, replaced wherever they appear (case-insensitive, whole words). */
+export const PART_PHRASES_FR: readonly (readonly [en: string, fr: string])[] = [
+  ['without Groove', 'sans rainure'],
+  ['with Groove', 'avec rainure'],
+  ['without Bottom Tube', 'sans tube'],
+  ['with Bottom Tube', 'avec tube'],
+  ['with Hole', 'avec trou'],
+  ['with Holes', 'avec trous'],
+  ['with Pin', 'avec axe'],
+  ['with Studs on Side', 'avec tenons sur le côté'],
+  ['with Stud on Side', 'avec tenon sur le côté'],
+  ['with Clip', 'avec clip'],
+  ['with Bar', 'avec barre'],
+  ['with Handle', 'avec poignée'],
+  ['Modified', 'modifiée'],
+  ['Inverted', 'inversée'],
+  ['Double', 'double'],
+  ['Left', 'gauche'],
+  ['Right', 'droite'],
+];
