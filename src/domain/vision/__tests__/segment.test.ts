@@ -125,6 +125,15 @@ describe('segmentPile', () => {
     expect(iou(merged[0].tight, truth(rects[4]))).toBeGreaterThanOrEqual(0.5);
   });
 
+  it('keeps a light grey piece when a large white object covers ~30 % of the border ring (sheet on a table)', () => {
+    const plate: SynthRect = { x: 250, y: 50, w: 50, h: 60, rgb: [160, 170, 160] };
+    const rects: SynthRect[] = [{ x: 0, y: 120, w: 230, h: 120, rgb: [205, 210, 215] }, plate];
+    const res = segmentPile(makeScene({ width: W, height: H, background: 'wood', rects, noise: 5, seed: 11 }), W, H);
+    // the background model is seeded with the dominant ring colour, so the sheet does not inflate it
+    expect(res.background.sigmaC).toBeLessThan(0.06);
+    expect(res.boxes.some((b) => !b.partial && iou(b.tight, truth(plate)) >= 0.5)).toBe(true);
+  });
+
   it('measures the dominant colour of a red piece despite a glare stripe', () => {
     const red = [201, 26, 9] as const;
     const rects: SynthRect[] = [

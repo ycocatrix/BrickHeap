@@ -12,14 +12,14 @@ import { labToRgb, rgbToLabInto } from './lab';
 export interface SegmentOptions {
   ring?: number; kSigma?: number; minTc?: number; minTL?: number; shadowFrac?: number;
   coreFrac?: number; minAreaFrac?: number; maxAreaFrac?: number; colorSplitDist?: number; lightSplitDist?: number;
-  colorSplitMinFrac?: number; shapeSeedFrac?: number; shapeSplitRelArea?: number; nestedFrac?: number; pad?: number;
+  colorSplitMinFrac?: number; shapeSeedFrac?: number; shapeSplitRelArea?: number; nestedFrac?: number; nestedMaxDe?: number; pad?: number;
   maxDepth?: number;
 }
 
 export const SEGMENT_DEFAULTS: Required<SegmentOptions> = {
   ring: 0.035, kSigma: 4.5, minTc: 0.16, minTL: 9, shadowFrac: 0.5, coreFrac: 0.25, minAreaFrac: 0.0012,
   maxAreaFrac: 0.55, colorSplitDist: 0.3, lightSplitDist: 0.42, colorSplitMinFrac: 0.12, shapeSeedFrac: 0.62,
-  shapeSplitRelArea: 1.6, nestedFrac: 0.7, pad: 0.08, maxDepth: 3,
+  shapeSplitRelArea: 1.6, nestedFrac: 0.7, nestedMaxDe: 22, pad: 0.08, maxDepth: 3,
 };
 
 const MIN_SIDE = 16;
@@ -208,8 +208,19 @@ function* segmentStages(rgba: Uint8Array | Uint8ClampedArray, w: number, h: numb
       k++;
     }
   }
+  // Seed the robust fit with the dominant ring colour: an object lying across the border (a sheet, a hand, a box)
+  // would otherwise drag the first least-squares surface, inflate both sigmas and hide low-chroma pieces.
   const keep = new Uint8Array(n).fill(1);
-  const resL = new Float32Array(n), resC = new Float32Array(n);
+  {
+    const mL = median(vL, n), m1 = median(v1, n), m2 = median(v2, n);
+    const dL = new Float32Array(n), dC = new Float32Array(n);
+    for (let k = 0; k < n; k++) { dL[k] = mAbs(vL[k] - mL); dC[k] = mHypot(v1[k] - m1, v2[k] - m2); }
+    const tL = mMax(12, 3 * 1.4826 * median(dL, n)), tC = mMax(0.08, 3 * 1.4826 * median(dC, n));
+    let kept = 0;
+    for (let k = 0; k < n; k++) { keep[k] = dL[k] <= tL && dC[k] <= tC ? 1 : 0; kept += keep[k]; }
+    if (kept < 0.3 * n) keep.fill(1);
+  }
+  const resL = new Float32Array(n), resC = new Float32Array(n), kL = new Float32Array(n), kC = new Float32Array(n);
   let sL: Float64Array = new Float64Array(6), s1 = sL, s2 = sL, sigL = 0, sigC = 0;
   for (let pass = 0; pass < 3; pass++) {
     sL = fitQuad(xs, ys, vL, keep, n); s1 = fitQuad(xs, ys, v1, keep, n); s2 = fitQuad(xs, ys, v2, keep, n);
@@ -217,7 +228,9 @@ function* segmentStages(rgba: Uint8Array | Uint8ClampedArray, w: number, h: numb
       resL[k] = mAbs(vL[k] - evalQuad(sL, xs[k], ys[k]));
       resC[k] = mHypot(v1[k] - evalQuad(s1, xs[k], ys[k]), v2[k] - evalQuad(s2, xs[k], ys[k]));
     }
-    sigL = 1.4826 * median(resL, n); sigC = 1.4826 * median(resC, n);
+    let nk = 0;
+    for (let k = 0; k < n; k++) if (keep[k]) { kL[nk] = resL[k]; kC[nk] = resC[k]; nk++; }
+    sigL = 1.4826 * median(kL, nk); sigC = 1.4826 * median(kC, nk);
     if (pass < 2) for (let k = 0; k < n; k++) keep[k] = resL[k] <= 3 * sigL + 2 && resC[k] <= 3 * sigC + 0.03 ? 1 : 0;
   }
   const TL = mMax(o.minTL, o.kSigma * sigL), Tc = mMax(o.minTc, o.kSigma * sigC);
@@ -333,11 +346,20 @@ function* segmentStages(rgba: Uint8Array | Uint8ClampedArray, w: number, h: numb
     }
     const dist = mHypot(ax - bx, ay - by);
     if (dist < (mode === 0 ? o.colorSplitDist : o.lightSplitDist)) return null;
-    const minPart = mMax(minArea, o.colorSplitMinFrac * np);
+    // Relative minimum, capped so that a small piece stuck to a large blob (a sheet, a wood seam) can still be cut.
+    const minPart = mMax(minArea, mMin(o.colorSplitMinFrac * np, 1.5 * minArea));
     if (na < minPart || nb < minPart) return null;
     const A = subComponents(pix, sel, 0), B = subComponents(pix, sel, 1);
-    // each cluster must be spatially compact (otherwise it is shading or print of a single piece)
-    if (A[0].length < 0.75 * na || B[0].length < 0.75 * nb) return null;
+    // The majority cluster must stay in one piece (a glare stripe or print cutting a brick in two is not a split);
+    // the minority one may be several solid, piece-sized regions (bricks stuck to a sheet or a wood seam).
+    const compact = (parts: Int32Array[], total: number): boolean => parts[0].length >= 0.75 * total;
+    const solid = (parts: Int32Array[], total: number): boolean => {
+      let s = 0;
+      for (const q of parts) if (q.length >= minArea) s += q.length;
+      return s >= 0.75 * total;
+    };
+    const [major, nMajor, minor, nMinor] = na >= nb ? [A, na, B, nb] : [B, nb, A, na];
+    if (!compact(major, nMajor) || !(compact(minor, nMinor) || solid(minor, nMinor))) return null;
     return [...A, ...B].filter((p) => p.length >= minArea);
   };
 
@@ -445,12 +467,17 @@ function* segmentStages(rgba: Uint8Array | Uint8ClampedArray, w: number, h: numb
   const tb = pieces.map((p) => { const b = tightOf(p.pix); return [b[0], b[1], b[2] + 1, b[3] + 1]; });
   const order = pieces.map((_, i) => i).sort((i, j) => pieces[i].pix.length - pieces[j].pix.length);
   const gone = new Uint8Array(pieces.length);
+  // Only a piece of similar colour is a face/shade of its container: a brick lying inside the box of a large
+  // object (sheet, wood seam) must stay separate. Distance in Lab with lightness down-weighted (shading).
+  const cols = pieces.map((p) => dominantLab(lab, p.pix));
+  const similar = (a: Lab, b: Lab): boolean =>
+    mHypot(0.5 * (a[0] - b[0]), a[1] - b[1], a[2] - b[2]) <= o.nestedMaxDe;
   for (const i of order) {
     for (let j = 0; j < pieces.length; j++) {
       if (j === i || gone[j] || pieces[j].pix.length < pieces[i].pix.length) continue;
       const A = tb[i], B = tb[j];
       const iw = mMin(A[2], B[2]) - mMax(A[0], B[0]), ih = mMin(A[3], B[3]) - mMax(A[1], B[1]);
-      if (iw > 0 && ih > 0 && iw * ih >= o.nestedFrac * (A[2] - A[0]) * (A[3] - A[1])) {
+      if (iw > 0 && ih > 0 && iw * ih >= o.nestedFrac * (A[2] - A[0]) * (A[3] - A[1]) && similar(cols[i], cols[j])) {
         const merged = new Int32Array(pieces[i].pix.length + pieces[j].pix.length);
         merged.set(pieces[j].pix);
         merged.set(pieces[i].pix, pieces[j].pix.length);
