@@ -63,6 +63,19 @@ figure{margin:0;text-align:center}figcaption{margin-top:8px;color:var(--mut);fon
 .pic .b:before{content:"";display:block;margin:-6px auto 0;width:30px;height:6px;border-radius:3px 3px 0 0;background:inherit;filter:brightness(.9)}
 .badge{position:absolute;top:-6px;right:-6px;min-width:24px;height:24px;padding:0 6px;border-radius:12px;background:var(--pri);color:#12141A;font-weight:700;font-size:12px;display:grid;place-items:center;border:2px solid var(--bg)}
 .tile.img{padding:8px;font-size:11px;line-height:1.25}
+.lcard{position:absolute;left:12px;right:12px;bottom:70px;height:158px;background:var(--surf);border:1px solid var(--line);border-radius:16px;padding:10px;z-index:3;font-size:12px}
+.lcard.b1{bottom:78px;left:20px;right:20px;opacity:.6;z-index:2}.lcard.b2{bottom:86px;left:28px;right:28px;opacity:.35;z-index:1}
+.lcard .ph{width:62px;height:62px;border-radius:10px;background:#6b5b4a;display:grid;place-items:center;float:left;margin-right:10px}
+.lcard .nm{font-weight:700;font-size:14px}.lcard .row2{display:flex;gap:8px;margin-top:10px;clear:both;align-items:center}
+.lbtn{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-size:20px;font-weight:700}
+.lbtn.no{border:2px solid var(--err);color:var(--err)}.lbtn.yes{background:var(--ok);color:#12141A}
+.stamp{position:absolute;top:14px;right:14px;border:3px solid var(--ok);color:var(--ok);font-weight:800;padding:2px 8px;border-radius:6px;transform:rotate(12deg);font-size:14px}
+.stamp.no{left:14px;right:auto;border-color:var(--err);color:var(--err);transform:rotate(-12deg)}
+.lhead{position:absolute;top:36px;left:10px;right:10px;display:flex;justify-content:space-between;align-items:center;z-index:4;font-size:11px}
+.lhead .pill{background:rgba(18,20,26,.85);border-radius:14px;padding:5px 9px}
+.lhead .done{background:var(--pri);color:#12141A;font-weight:700;border-radius:14px;padding:5px 10px}
+.toast{position:absolute;left:12px;right:12px;bottom:80px;background:#F5F6F8;color:#12141A;border-radius:12px;padding:12px;font-size:12px;display:flex;justify-content:space-between;z-index:4}
+.segbar{position:absolute;left:0;right:0;bottom:0;height:60px;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:4}
 </style>
 </head>
 <body>
@@ -202,6 +215,57 @@ figure{margin:0;text-align:center}figcaption{margin-top:8px;color:var(--mut);fon
 
 </div>
 
+
+<h2>B bis · Mode Live — file de cartes (brouillon)</h2>
+<div class="row">
+
+<figure><div class="phone"><div class="notch"></div><div class="cam"></div>
+<div class="lhead"><span class="pill">🧺 4 validées · 3 en attente</span><span class="done">Terminer</span></div><div class="brick" style="left:40px;top:120px;width:70px;height:46px;background:#c0262d"></div>
+<div class="box ok" style="left:40px;top:120px;width:70px;height:46px;outline-color:#FFD02E"><b>2×4 Rouge</b></div>
+<div class="brick" style="left:150px;top:150px;width:44px;height:24px;background:#1c6bd6"></div>
+<div class="box ok" style="left:150px;top:150px;width:44px;height:24px"></div>
+<div class="brick" style="left:120px;top:215px;width:30px;height:30px;background:#555"></div>
+<div class="box un" style="left:120px;top:215px;width:30px;height:30px"></div><div class="lcard b2"></div><div class="lcard b1"></div>
+<div class="lcard"><div class="ph">📷</div><div class="nm">Brique 2 × 4</div>
+<div><span class="dot" style="display:inline-block;vertical-align:middle;background:#c0262d;width:12px;height:12px"></span> Rouge vif <span class="chip" style="color:var(--ok)">✓ 96 %</span></div>
+<div style="color:var(--mut);margin-top:4px">Changer ›</div>
+<div class="row2"><span class="lbtn no">✕</span><span class="q" style="margin:0 auto"><i>−</i><b style="font-size:16px">2</b><i>+</i></span><span class="lbtn yes">✓</span></div></div><div class="segbar"><div class="seg"><span>Explorer</span><span>Inventorier</span><span class="on">Live</span></div></div>
+</div><figcaption>B5 · Live : pièces posées, la carte du dessus (pièces surlignées en jaune), 2 cartes en attente derrière</figcaption></figure>
+
+<figure><div class="phone"><div class="notch"></div><div class="cam"></div>
+<div class="lhead"><span class="pill">🧺 4 validées · 3 en attente</span><span class="done">Terminer</span></div><div class="brick" style="left:40px;top:120px;width:70px;height:46px;background:#c0262d"></div>
+<div class="box ok" style="left:40px;top:120px;width:70px;height:46px;outline-color:#FFD02E"><b>2×4 Rouge</b></div>
+<div class="brick" style="left:150px;top:150px;width:44px;height:24px;background:#1c6bd6"></div>
+<div class="box ok" style="left:150px;top:150px;width:44px;height:24px"></div>
+<div class="brick" style="left:120px;top:215px;width:30px;height:30px;background:#555"></div>
+<div class="box un" style="left:120px;top:215px;width:30px;height:30px"></div><div class="lcard b2"></div><div class="lcard b1"></div>
+<div class="lcard" style="transform:translateX(60px) rotate(9deg)"><span class="stamp" style="top:auto;bottom:14px;right:auto;left:14px">VALIDER</span><div class="ph">📷</div><div class="nm">Brique 2 × 4</div><div>Rouge vif · ×2</div></div><div class="segbar"><div class="seg"><span>Explorer</span><span>Inventorier</span><span class="on">Live</span></div></div>
+</div><figcaption>B6 · Swipe droite = valider (gauche = refuser, tampon rouge « REFUSER ») ; boutons ✓ / ✕ équivalents</figcaption></figure>
+
+<figure><div class="phone"><div class="notch"></div><div class="cam"></div>
+<div class="lhead"><span class="pill">🧺 5 validées · 0 en attente</span><span class="done">Terminer</span></div>
+<div class="center" style="position:absolute;top:220px;left:0;right:0;color:#F5F6F8">Posez une pièce…</div>
+<div class="toast"><span>✓ <b>Brique 2×4 Rouge</b> ajoutée</span><b>ANNULER</b></div><div class="segbar"><div class="seg"><span>Explorer</span><span>Inventorier</span><span class="on">Live</span></div></div>
+</div><figcaption>B7 · Retirer = valider : les pièces d'une carte sûre quittent le champ → validée seule (vibration + « ding », Annuler 5 s). Une carte douteuse reste à décider.</figcaption></figure>
+
+<figure><div class="phone"><div class="notch"></div><div class="cam"></div><div class="dim"></div>
+<div class="sheet" style="bottom:60px;z-index:5"><b style="padding:0 14px">Plutôt…</b>
+<div class="line"><span class="dot" style="background:#8a8f98"></span>Plaque 1×2 <span class="q"><span class="chip">58 %</span></span></div>
+<div class="line"><span class="dot" style="background:#8a8f98"></span>Tuile 1×2 <span class="q"><span class="chip">31 %</span></span></div>
+<div class="line"><span class="dot" style="background:#8a8f98"></span>Brique 1×2 <span class="q"><span class="chip">12 %</span></span></div>
+<div style="padding:8px 14px 4px;font-size:12px">Couleur : <span class="chip">Gris clair ✓</span><span class="chip">Gris foncé</span><span class="chip">Autre…</span></div>
+<div class="cta">Valider ce choix</div></div><div class="segbar"><div class="seg"><span>Explorer</span><span>Inventorier</span><span class="on">Live</span></div></div>
+</div><figcaption>B8 · « Changer » : 3 propositions + couleur (obligatoire pour « à vérifier », « couleur à confirmer »)</figcaption></figure>
+
+<figure><div class="phone"><div class="notch"></div><div class="cam"></div>
+<div class="lhead"><span class="pill">🧺 4 validées · 3 en attente</span><span class="done">Terminer</span></div><div class="lcard b1"></div>
+<div class="lcard"><div class="ph">📷</div><div class="nm">Pièce inconnue</div>
+<div style="color:var(--mut)">Ombre, reflet ou pièce rare ?</div><div style="color:var(--pri);margin-top:4px">Choisir parmi les propositions ›</div>
+<div class="row2"><span class="lbtn no">✕</span><span style="margin:0 auto;color:var(--mut);font-size:11px">← refuser</span><span class="lbtn" style="border:2px dashed var(--mut);color:var(--mut)">✓</span></div></div><div class="segbar"><div class="seg"><span>Explorer</span><span>Inventorier</span><span class="on">Live</span></div></div>
+</div><figcaption>B9 · Carte inconnue ou parasite : refuser d'un swipe gauche ; ✓ seulement après un choix</figcaption></figure>
+
+</div>
+<p class="sub" style="text-align:center">« Terminer » ouvre l'écran de validation B3 pré-rempli avec le panier, puis l'ajout à une liste.</p>
 <h2>C · Pièce, inventaire, listes, export</h2>
 <div class="row">
 

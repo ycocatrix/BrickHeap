@@ -117,3 +117,23 @@ Chargement (squelettes), hors-ligne / service d'identification indisponible (cad
 
 ## 5. Accessibilité
 Contraste ≥ 4,5:1, statut jamais seulement par la couleur, labels VoiceOver/TalkBack (« Brique 2×4 rouge, 92 %, appuyer pour ouvrir »), texte dynamique, retours haptiques sur ajout/undo.
+
+## Mode Live — file de cartes (brouillon, maquettes B5 à B9)
+
+Troisième mode du sélecteur du scanner (**Explorer · Inventorier · Live**). La caméra reste ouverte ; chaque pièce posée et identifiée alimente une **carte** (les pièces identiques augmentent la quantité de la carte). La carte du dessus occupe le bas de l'écran, dans la zone du pouce : photo réelle, nom, couleur, confiance, `+ / −`, « Changer ».
+
+```mermaid
+flowchart LR
+  A[Poser une ou plusieurs pièces] --> D[Carte dans la file]
+  D -->|carte sûre : retirer ses pièces| C[Validée seule · bandeau Annuler 5 s]
+  D -->|carte douteuse : retirer| D
+  D -->|swipe droite / ✓| E[Panier de session]
+  D -->|swipe gauche / ✕| F[Refusée]
+  D -->|Changer| G[3 propositions + couleur] --> D
+  C --> E
+  E -->|Terminer| H[Écran de validation B3] --> I[Ajout à une liste]
+```
+
+- **Retours** : vibration à chaque identification et à chaque validation ; « ding » sonore désactivable.
+- **Accessibilité** : le swipe a toujours un équivalent en boutons ✓ / ✕ (48 dp) ; les cartes sont annoncées par VoiceOver/TalkBack (« Brique 2×4 rouge, 2 pièces, 96 %, balayer à droite pour valider »).
+- **En-tête** : compteur du panier (« 4 validées · 3 en attente ») et bouton « Terminer », toujours visibles.
